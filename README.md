@@ -1,3 +1,15 @@
+# Personal Build
+This Configurations is personal build for my Printer
+
+Ender 3 Pro
+SKR Mini E3 V1.2
+Z-lead 8mm
+Fast probing BLTOUCH (Wired to Probe Pin PC14)
+Sensorless Homing (Z Probe Homing)
+/32 Microstep (X,Y)
+
+Please Cautions when using this configurations, it can crash your printers!!!
+
 # Marlin 3D Printer Firmware
 
 ![GitHub](https://img.shields.io/github/license/marlinfirmware/marlin.svg)
