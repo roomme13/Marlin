@@ -330,9 +330,6 @@
   #define EXTRUDER_RUNOUT_EXTRUDE 5   // (mm)
 #endif
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 /**
  * Hotend Idle Timeout
  * Prevent filament in the nozzle from charring and causing a critical jam.
@@ -345,12 +342,6 @@
   #define HOTEND_IDLE_BED_TARGET      0     // (°C) Safe temperature for the bed after timeout
 #endif
 
-=======
->>>>>>> parent of c3a76574f7... Merge remote-tracking branch 'upstream/bugfix-2.0.x' into build-bugfix-2.0.x
-=======
->>>>>>> parent of c3a76574f7... Merge remote-tracking branch 'upstream/bugfix-2.0.x' into build-bugfix-2.0.x
-=======
->>>>>>> parent of c3a76574f7... Merge remote-tracking branch 'upstream/bugfix-2.0.x' into build-bugfix-2.0.x
 // @section temperature
 
 // Calibration for AD595 / AD8495 sensor to adjust temperature measurements.
