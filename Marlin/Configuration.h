@@ -547,6 +547,7 @@
   #define DEFAULT_bedKp 50.71
   #define DEFAULT_bedKi 9.88
   #define DEFAULT_bedKd 173.43
+#endif
 
 #if EITHER(PIDTEMP, PIDTEMPBED)
   //#define PID_DEBUG             // Sends debug data to the serial port. Use 'M303 D' to toggle activation.
