@@ -548,7 +548,6 @@
   #define DEFAULT_bedKi 9.88
   #define DEFAULT_bedKd 173.43
 
-<<<<<<< HEAD
 #if EITHER(PIDTEMP, PIDTEMPBED)
   //#define PID_DEBUG             // Sends debug data to the serial port. Use 'M303 D' to toggle activation.
   //#define PID_OPENLOOP          // Puts PID in open loop. M104/M140 sets the output power from 0 to PID_MAX
@@ -556,9 +555,6 @@
   #define PID_FUNCTIONAL_RANGE 10 // If the temperature difference between the target temperature and the actual temperature
                                   // is more than PID_FUNCTIONAL_RANGE then the PID will be shut off and the heater will be set to min/max.
 #endif
-=======
-#endif // PIDTEMPBED
->>>>>>> parent of c3a76574f7... Merge remote-tracking branch 'upstream/bugfix-2.0.x' into build-bugfix-2.0.x
 
 // @section extruder
 
