@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
 
@@ -24,6 +24,14 @@
 
 #if ENABLED(EMERGENCY_PARSER)
   #include "../../feature/e_parser.h"
+#endif
+
+#ifndef USART4
+  #define USART4 UART4
+#endif
+
+#ifndef USART5
+  #define USART5 UART5
 #endif
 
 #define DECLARE_SERIAL_PORT(ser_num) \
@@ -47,10 +55,8 @@
 
 void MarlinSerial::begin(unsigned long baud, uint8_t config) {
   HardwareSerial::begin(baud, config);
-  // replace the IRQ callback with the one we have defined
-  #if ENABLED(EMERGENCY_PARSER)
-    _serial.rx_callback = _rx_callback;
-  #endif
+  // Replace the IRQ callback with the one we have defined
+  TERN_(EMERGENCY_PARSER, _serial.rx_callback = _rx_callback);
 }
 
 // This function is Copyright (c) 2006 Nicholas Zambetti.

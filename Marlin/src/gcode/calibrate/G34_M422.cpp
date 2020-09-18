@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
 
@@ -56,10 +56,8 @@
  *   R<recalculate> points based on current probe offsets
  */
 void GcodeSuite::G34() {
-  if (DEBUGGING(LEVELING)) {
-    DEBUG_ECHOLNPGM(">>> G34");
-    log_machine_info();
-  }
+  DEBUG_SECTION(log_G34, "G34", DEBUGGING(LEVELING));
+  if (DEBUGGING(LEVELING)) log_machine_info();
 
   do { // break out on error
 
@@ -294,11 +292,14 @@ void GcodeSuite::G34() {
           // Check for less accuracy compared to last move
           if (last_z_align_move[zstepper] < z_align_abs * 0.7f) {
             SERIAL_ECHOLNPGM("Decreasing accuracy detected.");
+            if (DEBUGGING(LEVELING)) DEBUG_ECHOLNPAIR("> Z", int(zstepper + 1), " last_z_align_move = ", last_z_align_move[zstepper]);
+            if (DEBUGGING(LEVELING)) DEBUG_ECHOLNPAIR("> Z", int(zstepper + 1), " z_align_abs = ", z_align_abs);
             adjustment_reverse = !adjustment_reverse;
           }
 
-          // Remember the alignment for the next iteration
-          last_z_align_move[zstepper] = z_align_abs;
+          // Remember the alignment for the next iteration, but only if steppers move,
+          // otherwise it would be just zero (in case this stepper was at z_measured_min already)
+          if (z_align_abs > 0) last_z_align_move[zstepper] = z_align_abs;
         #endif
 
         // Stop early if all measured points achieve accuracy target
@@ -312,8 +313,10 @@ void GcodeSuite::G34() {
         #if DISABLED(Z_STEPPER_ALIGN_KNOWN_STEPPER_POSITIONS)
           // Decreasing accuracy was detected so move was inverted.
           // Will match reversed Z steppers on dual steppers. Triple will need more work to map.
-          if (adjustment_reverse)
+          if (adjustment_reverse) {
             z_align_move = -z_align_move;
+            if (DEBUGGING(LEVELING)) DEBUG_ECHOLNPAIR("> Z", int(zstepper + 1), " correction reversed to ", z_align_move);
+          }
         #endif
 
         // Do a move to correct part of the misalignment for the current stepper
@@ -343,7 +346,7 @@ void GcodeSuite::G34() {
 
     #if ENABLED(HOME_AFTER_G34)
       // After this operation the z position needs correction
-      set_axis_not_trusted(Z_AXIS);
+      set_axis_never_homed(Z_AXIS);
       // Home Z after the alignment procedure
       process_subcommands_now_P(PSTR("G28Z"));
     #else
@@ -362,8 +365,6 @@ void GcodeSuite::G34() {
     #endif
 
   }while(0);
-
-  if (DEBUGGING(LEVELING)) DEBUG_ECHOLNPGM("<<< G34");
 }
 
 /**

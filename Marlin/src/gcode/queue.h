@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
 #pragma once
@@ -55,16 +55,12 @@ public:
   /**
    * The port that the command was received on
    */
-  #if NUM_SERIAL > 1
+  #if HAS_MULTI_SERIAL
     static int16_t port[BUFSIZE];
   #endif
 
   static int16_t command_port() {
-    return (0
-      #if NUM_SERIAL > 1
-        + port[index_r]
-      #endif
-    );
+    return TERN0(HAS_MULTI_SERIAL, port[index_r]);
   }
 
   GCodeQueue();
@@ -162,13 +158,13 @@ private:
   #endif
 
   static void _commit_command(bool say_ok
-    #if NUM_SERIAL > 1
+    #if HAS_MULTI_SERIAL
       , int16_t p=-1
     #endif
   );
 
   static bool _enqueue(const char* cmd, bool say_ok=false
-    #if NUM_SERIAL > 1
+    #if HAS_MULTI_SERIAL
       , int16_t p=-1
     #endif
   );
